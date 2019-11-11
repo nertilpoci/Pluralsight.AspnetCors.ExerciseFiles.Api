@@ -4,12 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using Bogus;
 using Globomantics.ProductsApi.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace Globomantics.ProductsApi.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/[controller]")]
     public class ProductsController : ControllerBase
     {

@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="Bogus" Version="28.4.1" />
+    <PackageReference Include="ZNetCS.AspNetCore.Authentication.Basic" Version="3.0.2" />
   </ItemGroup>
 
 </Project>

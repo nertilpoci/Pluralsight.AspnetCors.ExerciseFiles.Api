@@ -1,7 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
+using System.Security.Claims;
+using System.Text;
+using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+
+using ZNetCS.AspNetCore.Authentication.Basic;
+using ZNetCS.AspNetCore.Authentication.Basic.Events;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -10,6 +17,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Authentication;
 
 namespace Globomantics.ProductsApi
 {
@@ -25,7 +34,43 @@ namespace Globomantics.ProductsApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddCors();
+            // configure basic authentication 
+            services
+     .AddAuthentication(BasicAuthenticationDefaults.AuthenticationScheme)
+     .AddBasicAuthentication(
+       options =>
+       {
+           options.Realm = "My Application";
+           options.Events = new BasicAuthenticationEvents
+           {
+               OnValidatePrincipal = context =>
+               {
+                   if ((context.UserName.ToLower() == "name")
+                          && (context.Password == "password"))
+                   {
+                       var claims = new List<Claim>
+               {
+                new Claim(ClaimTypes.Name,
+                          context.UserName,
+                          context.Options.ClaimsIssuer)
+               };
+
+                       var ticket = new AuthenticationTicket(
+                        new ClaimsPrincipal(new ClaimsIdentity(
+                          claims,
+                          BasicAuthenticationDefaults.AuthenticationScheme)),
+                        new Microsoft.AspNetCore.Authentication.AuthenticationProperties(),
+                        BasicAuthenticationDefaults.AuthenticationScheme);
+
+                       return Task.FromResult(AuthenticateResult.Success(ticket));
+                   }
+
+                   return Task.FromResult(AuthenticateResult.Fail("Authentication failed."));
+               }
+           };
+       });
+            var origins = Configuration.GetValue<string>("AllowedOrigins")?.Split(",") ?? new string[0];
+            services.AddCors(options=>options.AddPolicy("GlobamanticsStore",builder=>builder.WithOrigins(origins).AllowAnyHeader()));
             services.AddControllers();
         }
 
@@ -36,11 +81,10 @@ namespace Globomantics.ProductsApi
             {
                 app.UseDeveloperExceptionPage();
             }
-            //app.UseCors(confg => confg.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
-            app.UseHttpsRedirection();
+            app.UseCors("GlobamanticsStore");
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -49,4 +93,4 @@ namespace Globomantics.ProductsApi
             });
         }
     }
-}
+  }
