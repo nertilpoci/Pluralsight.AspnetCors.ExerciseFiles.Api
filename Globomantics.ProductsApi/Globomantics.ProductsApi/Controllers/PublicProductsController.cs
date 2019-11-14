@@ -11,8 +11,9 @@ using Microsoft.Extensions.Logging;
 namespace Globomantics.ProductsApi.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
-    public class ProductsController : ControllerBase
+    [EnableCors("PublicApi")]
+    [Route("api/public/[controller]")]
+    public class PublicProductsController : ControllerBase
     {
 
         [HttpGet]
