@@ -26,7 +26,7 @@ namespace Globomantics.ProductsApi
         public void ConfigureServices(IServiceCollection services)
         {
             var allowedOrigins = Configuration.GetValue<string>("AllowedOrigins")?.Split(",") ?? new string[0];
-            services.AddCors(options=> options.AddPolicy("GlobomanticsInternal", builder => builder.WithOrigins(allowedOrigins)));
+            services.AddCors(options => options.AddPolicy("GlobomanticsInternal", builder => builder.WithOrigins(allowedOrigins)));
             services.AddControllers();
         }
 
