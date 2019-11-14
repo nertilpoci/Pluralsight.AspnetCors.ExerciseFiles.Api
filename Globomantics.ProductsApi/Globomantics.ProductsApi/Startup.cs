@@ -69,8 +69,13 @@ namespace Globomantics.ProductsApi
                }
            };
        });
-            var origins = Configuration.GetValue<string>("AllowedOrigins")?.Split(",") ?? new string[0];
-            services.AddCors(options=>options.AddPolicy("GlobamanticsStore",builder=>builder.WithOrigins(origins).AllowAnyHeader()));
+           
+            var allowedOrigins = Configuration.GetValue<string>("AllowedOrigins")?.Split(",") ?? new string[0];
+            services.AddCors(options =>
+            {
+                options.AddPolicy("GlobomanticsInternal", builder => builder.WithOrigins(allowedOrigins));
+                options.AddPolicy("PublicApi", builder => builder.AllowAnyOrigin().WithMethods("Get").WithHeaders("Content-Type"));
+            });
             services.AddControllers();
         }
 
@@ -81,9 +86,10 @@ namespace Globomantics.ProductsApi
             {
                 app.UseDeveloperExceptionPage();
             }
-            app.UseCors("GlobamanticsStore");
-
+           
             app.UseRouting();
+            app.UseCors("GlobomanticsInternal");
+           
             app.UseAuthentication();
             app.UseAuthorization();
 
