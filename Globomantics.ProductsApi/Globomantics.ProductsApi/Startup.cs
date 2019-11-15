@@ -45,27 +45,23 @@ namespace Globomantics.ProductsApi
            {
                OnValidatePrincipal = context =>
                {
-                   if ((context.UserName.ToLower() == "name")
-                          && (context.Password == "password"))
-                   {
+                   
                        var claims = new List<Claim>
                {
                 new Claim(ClaimTypes.Name,
                           context.UserName,
                           context.Options.ClaimsIssuer)
                };
-
-                       var ticket = new AuthenticationTicket(
-                        new ClaimsPrincipal(new ClaimsIdentity(
+                       var principal = new ClaimsPrincipal(new ClaimsIdentity(
                           claims,
-                          BasicAuthenticationDefaults.AuthenticationScheme)),
+                          BasicAuthenticationDefaults.AuthenticationScheme));
+                       var ticket = new AuthenticationTicket(principal,
                         new Microsoft.AspNetCore.Authentication.AuthenticationProperties(),
                         BasicAuthenticationDefaults.AuthenticationScheme);
-
+                       context.Principal = principal;
                        return Task.FromResult(AuthenticateResult.Success(ticket));
-                   }
+                  
 
-                   return Task.FromResult(AuthenticateResult.Fail("Authentication failed."));
                }
            };
        });
@@ -73,7 +69,7 @@ namespace Globomantics.ProductsApi
             var allowedOrigins = Configuration.GetValue<string>("AllowedOrigins")?.Split(",") ?? new string[0];
             services.AddCors(options =>
             {
-                options.AddPolicy("GlobomanticsInternal", builder => builder.WithOrigins(allowedOrigins));
+                options.AddPolicy("GlobomanticsInternal", builder => builder.AllowAnyOrigin().AllowCredentials());
                 options.AddPolicy("PublicApi", builder => builder.AllowAnyOrigin().WithMethods("Get").WithHeaders("Content-Type"));
             });
             services.AddControllers();
