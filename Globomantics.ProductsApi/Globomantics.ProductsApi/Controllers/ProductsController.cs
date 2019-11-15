@@ -12,7 +12,6 @@ using Microsoft.Extensions.Logging;
 namespace Globomantics.ProductsApi.Controllers
 {
     [ApiController]
-    [Authorize]
     [Route("api/[controller]")]
     public class ProductsController : ControllerBase
     {
