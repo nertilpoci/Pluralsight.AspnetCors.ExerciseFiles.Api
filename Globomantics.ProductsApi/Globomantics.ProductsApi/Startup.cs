@@ -34,41 +34,7 @@ namespace Globomantics.ProductsApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // configure basic authentication 
-            services
-     .AddAuthentication(BasicAuthenticationDefaults.AuthenticationScheme)
-     .AddBasicAuthentication(
-       options =>
-       {
-           options.Realm = "My Application";
-           options.Events = new BasicAuthenticationEvents
-           {
-               OnValidatePrincipal = context =>
-               {
-                   if ((context.UserName.ToLower() == "name")
-                          && (context.Password == "password"))
-                   {
-                       var claims = new List<Claim>
-               {
-                new Claim(ClaimTypes.Name,
-                          context.UserName,
-                          context.Options.ClaimsIssuer)
-               };
-
-                       var ticket = new AuthenticationTicket(
-                        new ClaimsPrincipal(new ClaimsIdentity(
-                          claims,
-                          BasicAuthenticationDefaults.AuthenticationScheme)),
-                        new Microsoft.AspNetCore.Authentication.AuthenticationProperties(),
-                        BasicAuthenticationDefaults.AuthenticationScheme);
-
-                       return Task.FromResult(AuthenticateResult.Success(ticket));
-                   }
-
-                   return Task.FromResult(AuthenticateResult.Fail("Authentication failed."));
-               }
-           };
-       });
+           
            
             var allowedOrigins = Configuration.GetValue<string>("AllowedOrigins")?.Split(",") ?? new string[0];
             services.AddCors(options =>
@@ -90,9 +56,6 @@ namespace Globomantics.ProductsApi
             app.UseRouting();
             app.UseCors("GlobomanticsInternal");
            
-            app.UseAuthentication();
-            app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
