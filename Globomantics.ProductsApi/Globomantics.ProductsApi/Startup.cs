@@ -39,10 +39,13 @@ namespace Globomantics.ProductsApi
             var allowedOrigins = Configuration.GetValue<string>("AllowedOrigins")?.Split(",") ?? new string[0];
             services.AddCors(options =>
             {
-                options.AddPolicy("GlobomanticsInternal", builder => builder.WithOrigins(allowedOrigins));
+                options.AddPolicy("GlobomanticsInternal", builder => {
+                    builder.WithOrigins(allowedOrigins);
+                    builder.WithExposedHeaders("PageNo", "PageSize", "PageCount", "PageTotalRecords");
+                });
                 options.AddPolicy("PublicApi", builder => builder.AllowAnyOrigin().WithMethods("Get").WithHeaders("Content-Type"));
-            });
-            services.AddControllers();
+            });                                                                                                              
+            services.AddControllers();                                                                                       
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
