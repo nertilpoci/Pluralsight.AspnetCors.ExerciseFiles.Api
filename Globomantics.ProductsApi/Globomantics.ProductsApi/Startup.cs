@@ -19,6 +19,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Authentication;
+using System.Text.RegularExpressions;
 
 namespace Globomantics.ProductsApi
 {
@@ -35,19 +36,23 @@ namespace Globomantics.ProductsApi
         public void ConfigureServices(IServiceCollection services)
         {
            
-           
-            var allowedOrigins = Configuration.GetValue<string>("AllowedOrigins")?.Split(",") ?? new string[0];
             services.AddCors(options =>
             {
                 options.AddPolicy("GlobomanticsInternal", builder => {
-                    builder.WithOrigins(allowedOrigins);
-                    builder.WithExposedHeaders("PageNo", "PageSize", "PageCount", "PageTotalRecords");
+                    builder.WithOrigins("http://*.globomanticsshop.com");
+                    builder.SetIsOriginAllowedToAllowWildcardSubdomains();
+                    builder.SetIsOriginAllowed(IsOriginAllowed);
                 });
-                options.AddPolicy("PublicApi", builder => builder.AllowAnyOrigin().WithMethods("Get").WithHeaders("Content-Type"));
             });                                                                                                              
             services.AddControllers();                                                                                       
         }
+       
+        private static bool IsOriginAllowed(string host)
+        {
+            var corsOriginAllowed = new[] { "globomantics" };
 
+            return corsOriginAllowed.Any(origin => origin.Contains(origin));
+        }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
@@ -64,5 +69,6 @@ namespace Globomantics.ProductsApi
                 endpoints.MapControllers();
             });
         }
+        
     }
-  }
+}
