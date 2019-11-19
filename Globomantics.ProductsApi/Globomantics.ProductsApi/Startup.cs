@@ -32,26 +32,31 @@ namespace Globomantics.ProductsApi
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        
         public void ConfigureServices(IServiceCollection services)
         {
-           
+
             services.AddCors(options =>
             {
                 options.AddPolicy("GlobomanticsInternal", builder => {
+                    //don't use both at once
+
+                    //wildcard subdomains
                     builder.WithOrigins("http://*.globomanticsshop.com");
                     builder.SetIsOriginAllowedToAllowWildcardSubdomains();
-                    builder.SetIsOriginAllowed(IsOriginAllowed);
+
+                    //runtime validation
+                    //builder.SetIsOriginAllowed(IsOriginAllowed);
                 });
-            });                                                                                                              
-            services.AddControllers();                                                                                       
+            });
+            services.AddControllers();
         }
-       
+
         private static bool IsOriginAllowed(string host)
         {
             var corsOriginAllowed = new[] { "globomantics" };
 
-            return corsOriginAllowed.Any(origin => origin.Contains(origin));
+            return corsOriginAllowed.Any(origin => host.Contains(origin));
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
