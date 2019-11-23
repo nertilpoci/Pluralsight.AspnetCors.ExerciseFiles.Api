@@ -1,12 +1,12 @@
 ﻿using System;
 
-namespace GlobomanticsShop.Api.Controllers
+namespace GlobomnaticsShop.Api.Models
 {
      class ProductModel
     {
-        public Guid Id { get; internal set; }
-        public string Name { get; internal set; }
-        public string Image { get; internal set; }
-        public string Price { get; internal set; }
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public string Image { get; set; }
+        public string Price { get; set; }
     }
 }

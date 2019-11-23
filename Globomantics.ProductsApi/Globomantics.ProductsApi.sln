@@ -3,18 +3,24 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29326.143
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlobomanticsShop.Api", "GlobomanticsShop.Api\GlobomanticsShop.Api.csproj", "{68118DA5-FA12-4D38-8D85-E68C30C91ABB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlobomnaticsShop.Api", "GlobomanticsShop.Api\GlobomnaticsShop.Api.csproj", "{44B5E568-1E4F-4C09-97E2-C7E63366AECD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Live|Any CPU = Live|Any CPU
 		Release|Any CPU = Release|Any CPU
+		Staging|Any CPU = Staging|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{68118DA5-FA12-4D38-8D85-E68C30C91ABB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{68118DA5-FA12-4D38-8D85-E68C30C91ABB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{68118DA5-FA12-4D38-8D85-E68C30C91ABB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{68118DA5-FA12-4D38-8D85-E68C30C91ABB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44B5E568-1E4F-4C09-97E2-C7E63366AECD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44B5E568-1E4F-4C09-97E2-C7E63366AECD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44B5E568-1E4F-4C09-97E2-C7E63366AECD}.Live|Any CPU.ActiveCfg = Live|Any CPU
+		{44B5E568-1E4F-4C09-97E2-C7E63366AECD}.Live|Any CPU.Build.0 = Live|Any CPU
+		{44B5E568-1E4F-4C09-97E2-C7E63366AECD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44B5E568-1E4F-4C09-97E2-C7E63366AECD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44B5E568-1E4F-4C09-97E2-C7E63366AECD}.Staging|Any CPU.ActiveCfg = Staging|Any CPU
+		{44B5E568-1E4F-4C09-97E2-C7E63366AECD}.Staging|Any CPU.Build.0 = Staging|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

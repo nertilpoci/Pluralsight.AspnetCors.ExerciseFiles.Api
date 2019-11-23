@@ -1,15 +1,15 @@
 ﻿using Bogus;
+using GlobomnaticsShop.Api.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Description;
+using System.Web.Http.Results;
 
-namespace GlobomanticsShop.Api.Controllers
+namespace GlobomnaticsShop.Api.Controllers
 {
     public class ProductsController : ApiController
     {
+
         public IHttpActionResult Get()
         {
             var imageSizes = new int[] { 640, 480, 300, 500 };
@@ -22,6 +22,5 @@ namespace GlobomanticsShop.Api.Controllers
             return Ok(products.Generate(100));
         }
 
-       
     }
 }
