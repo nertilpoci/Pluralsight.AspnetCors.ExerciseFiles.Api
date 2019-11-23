@@ -21,6 +21,24 @@ namespace GlobomnaticsShop.Api
            
             //web api config
             var config = new HttpConfiguration();
+            config.EnableCors();
+            var policy = new CorsPolicy()
+            {
+                AllowAnyOrigin=true,
+                SupportsCredentials=false
+
+            };
+            policy.Origins.Add("http://localhost:8080");
+
+
+            app.UseCors(new CorsOptions
+            {
+                PolicyProvider = new CorsPolicyProvider
+                {
+                    PolicyResolver = context => Task.FromResult(policy)
+                }
+            });
+
             // Web API routes
             config.MapHttpAttributeRoutes();
             config.Routes.MapHttpRoute(
@@ -32,23 +50,9 @@ namespace GlobomnaticsShop.Api
             config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));
 
-
-            var policy = new CorsPolicy()
-            {
-                AllowAnyHeader = true,
-                AllowAnyMethod = true,
-                AllowAnyOrigin = true,
-            };
+            //app.UseCors(CorsOptions.AllowAll);
 
 
-
-            app.UseCors(new CorsOptions
-            {
-                PolicyProvider = new CorsPolicyProvider
-                {
-                    PolicyResolver = context => Task.FromResult(policy)
-                }
-            });
             app.UseWebApi(config);
             System.Web.Http.GlobalConfiguration.Configuration.EnsureInitialized();
         }
