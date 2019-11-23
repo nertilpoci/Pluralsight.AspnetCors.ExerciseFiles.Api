@@ -19,7 +19,7 @@ namespace GlobomanticsShop.Api
             config.Formatters.JsonFormatter.UseDataContractJsonSerializer = false;
             //cors configuration
 
-            var cors = new EnableCorsAttribute("http://google.com", "*", "*");
+            var cors = new EnableCorsAttribute("*", "*", "*");
             config.EnableCors(cors);
 
 
