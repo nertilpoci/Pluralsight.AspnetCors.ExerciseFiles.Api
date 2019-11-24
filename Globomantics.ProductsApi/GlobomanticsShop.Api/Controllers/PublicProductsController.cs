@@ -5,9 +5,11 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace GlobomanticsShop.Api.Controllers
 {
+   [EnableCors("*","Content-Type","GET")]
     public class PublicProductsController : ApiController
     {
         public IHttpActionResult Get()
