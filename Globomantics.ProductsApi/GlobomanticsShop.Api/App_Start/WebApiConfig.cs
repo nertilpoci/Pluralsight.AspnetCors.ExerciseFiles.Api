@@ -12,20 +12,20 @@ namespace GlobomanticsShop.Api
     {
         public static void Register(HttpConfiguration config)
         {
-            // Web API configuration and services
-            config.Formatters.JsonFormatter.SupportedMediaTypes
-    .Add(new MediaTypeHeaderValue("text/html"));
+            #region formatting
+            config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));
             config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             config.Formatters.JsonFormatter.UseDataContractJsonSerializer = false;
-            //cors configuration
+            #endregion
 
-            var cors = new EnableCorsAttribute("*", "*", "*");
-            config.EnableCors(cors);
+            #region cors
+            //var corsAttribute = new EnableCorsAttribute("*","*","*");
+            //config.EnableCors(corsAttribute);
+            #endregion
 
 
-            //--end of cors configuration
 
-            // Web API routes
+            #region routing
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
@@ -33,6 +33,8 @@ namespace GlobomanticsShop.Api
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+            #endregion
         }
     }
 }
