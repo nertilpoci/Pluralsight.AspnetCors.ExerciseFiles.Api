@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using System.Web.Cors;
 using System.Web.Http;
 using Microsoft.Owin;
+using Microsoft.Owin.Cors;
 using Newtonsoft.Json.Serialization;
 using Owin;
 
@@ -18,18 +20,20 @@ namespace GlobomanticsShop
             //web api config
             var config = new HttpConfiguration();
 
-            //var policy = new CorsPolicy();
-            //policy.Origins.Add("http://localhost:8080");
 
+            //cors
+            var globalPolicy = new CorsPolicy();
+            globalPolicy.AllowAnyHeader = true;
+            globalPolicy.AllowAnyMethod = true;
+            globalPolicy.Origins.Add("http://globomanticsshop.com");
 
-            //app.UseCors(new CorsOptions
-            //{
-            //    PolicyProvider = new CorsPolicyProvider
-            //    {
-            //        PolicyResolver = context => Task.FromResult(policy)
-            //    }
-            //});
-
+            app.UseCors(new Microsoft.Owin.Cors.CorsOptions
+            {
+                PolicyProvider = new CorsPolicyProvider
+                {
+                    PolicyResolver = context => Task.FromResult(globalPolicy)
+                }
+            }); ;
             // Web API routes
             config.MapHttpAttributeRoutes();
             config.Routes.MapHttpRoute(
