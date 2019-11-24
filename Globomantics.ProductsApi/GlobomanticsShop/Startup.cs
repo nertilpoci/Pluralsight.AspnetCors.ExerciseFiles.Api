@@ -1,43 +1,34 @@
-﻿using System.Threading.Tasks;
-using Microsoft.Owin;
-using Owin;
-using System.Web.Http;
-using Microsoft.Web.Http.Versioning;
-using Microsoft.Web.Http;
-using Microsoft.Web.Http.Routing;
+﻿using System;
 using System.Net.Http.Headers;
-using Microsoft.Owin.Cors;
-using System.Web.Cors;
+using System.Threading.Tasks;
+using System.Web.Http;
+using Microsoft.Owin;
 using Newtonsoft.Json.Serialization;
+using Owin;
 
-[assembly: OwinStartup(typeof(GlobomnaticsShop.Api.Startup))]
+[assembly: OwinStartup(typeof(GlobomanticsShop.Startup))]
 
-namespace GlobomnaticsShop.Api
+namespace GlobomanticsShop
 {
     public class Startup
     {
         public void Configuration(IAppBuilder app)
         {
-           
+
             //web api config
             var config = new HttpConfiguration();
-            config.EnableCors();
-            var policy = new CorsPolicy()
-            {
-                AllowAnyOrigin=true,
-                SupportsCredentials=false
 
-            };
-            policy.Origins.Add("http://localhost:8080");
+            //var policy = new CorsPolicy();
+            //policy.Origins.Add("http://localhost:8080");
 
 
-            app.UseCors(new CorsOptions
-            {
-                PolicyProvider = new CorsPolicyProvider
-                {
-                    PolicyResolver = context => Task.FromResult(policy)
-                }
-            });
+            //app.UseCors(new CorsOptions
+            //{
+            //    PolicyProvider = new CorsPolicyProvider
+            //    {
+            //        PolicyResolver = context => Task.FromResult(policy)
+            //    }
+            //});
 
             // Web API routes
             config.MapHttpAttributeRoutes();

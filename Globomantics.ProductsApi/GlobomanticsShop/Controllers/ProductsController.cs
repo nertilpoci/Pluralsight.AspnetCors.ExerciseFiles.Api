@@ -2,16 +2,13 @@
 using GlobomnaticsShop.Api.Models;
 using System;
 using System.Web.Http;
-using System.Web.Http.Cors;
 using System.Web.Http.Description;
 using System.Web.Http.Results;
 
-namespace GlobomnaticsShop.Api.Controllers
+namespace GlobomnaticsShop.Controllers
 {
-    [DisableCors()]
     public class ProductsController : ApiController
     {
-        [DisableCors]
         public IHttpActionResult Get()
         {
             var imageSizes = new int[] { 640, 480, 300, 500 };
